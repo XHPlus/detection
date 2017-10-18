@@ -35,7 +35,7 @@ __C.TRAIN = edict()
 
 # Scales to use during training (can list multiple scales)
 # Each scale is the pixel size of an image's shortest side
-__C.TRAIN.SCALES = (600,)
+__C.TRAIN.SCALES = (450,)
 
 # Max pixel size of the longest side of a scaled input image
 __C.TRAIN.MAX_SIZE = 1000
@@ -193,7 +193,8 @@ __C.ROOT_DIR = osp.abspath(osp.join(osp.dirname(__file__), '..', '..'))
 __C.DATA_DIR = osp.abspath(osp.join(__C.ROOT_DIR, 'data'))
 
 # Model directory
-__C.MODELS_DIR = osp.abspath(osp.join(__C.ROOT_DIR, 'models', 'pascal_voc'))
+__C.MODELS_DIR = osp.abspath(osp.join(__C.ROOT_DIR, 'models', 'imagenet'))
+#__C.MODELS_DIR = osp.abspath(osp.join(__C.ROOT_DIR, 'models', 'pascal_voc'))
 
 # Name (or path to) the matlab executable
 __C.MATLAB = 'matlab'

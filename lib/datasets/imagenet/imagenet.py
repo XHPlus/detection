@@ -26,10 +26,11 @@ class imagenet(imdb):
         imdb.__init__(self, 'imagenet')
         self._image_set = image_set
         self._data_path = os.path.join(cfg.DATA_DIR, "imagenet")
-        
+
         self._class_wnids = [
             ('__background__', '__background__'),
-            ('crane', 'n03126707')
+            ('crane', 'crane'),
+            ('excavator', 'excavator')
         ]
         self._classes = tuple([class_[1] for class_ in self._class_wnids])
 # class_[0] or class_[1]??????????
@@ -37,6 +38,7 @@ class imagenet(imdb):
 # class_to_ind is a dictionary corresponding classes with index {"background":0 "crane":1}
 	print(self._class_to_ind)
         self._xml_path = os.path.join(self._data_path, "Annotations")
+        #self._image_ext = ['.JPEG', '.jpeg']
         self._image_ext = '.JPEG'
 	# the xml file name and each one corresponding to image file name
         self._image_index = self._load_xml_filenames()
@@ -71,6 +73,14 @@ class imagenet(imdb):
         assert os.path.exists(image_path), \
                 'Path does not exist: {}'.format(image_path)
         return image_path
+        #for i in self._image_ext:
+        #    image_path = os.path.join(self._data_path, 'Images',
+        #                          image_filename + i)#self._image_ext)
+        #    if(os.path.exists(image_path)):
+        #        return image_path
+        #assert False, \
+        #        'Path does not exist: {}'.format(image_path)
+        #return ""
 
     def _load_xml_filenames(self):
         """
@@ -91,6 +101,7 @@ class imagenet(imdb):
         Return the database of ground-truth regions of interest.
         This function loads/saves from/to a cache file to speed up future calls.
         """
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
         cache_file = os.path.join(self.cache_path, self.name + '_gt_roidb.pkl')
         if os.path.exists(cache_file):
             with open(cache_file, 'rb') as fid:
@@ -109,7 +120,9 @@ class imagenet(imdb):
     def rpn_roidb(self):
         if self._image_set != 'test':
             gt_roidb = self.gt_roidb()
+            print("imagenet.py", len(gt_roidb))
             rpn_roidb = self._load_rpn_roidb(gt_roidb)
+            print("imagenet.py", len(rpn_roidb))
             roidb = imdb.merge_roidbs(gt_roidb, rpn_roidb)
         else:
             roidb = self._load_rpn_roidb(None)
@@ -129,7 +142,7 @@ class imagenet(imdb):
         """
         Load image and bounding boxes info from XML file in the ImageNet format
         """
-        filepath = os.path.join(self._data_path, 'Annotations/n03126707/', xml_filename + '.xml')
+        filepath = os.path.join(self._data_path, 'Annotations/', xml_filename + '.xml')
         wnid, image_name, objects = ap.parse(filepath)
         num_objs = len(objects)
 
