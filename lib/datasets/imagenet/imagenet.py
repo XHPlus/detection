@@ -38,8 +38,8 @@ class imagenet(imdb):
 # class_to_ind is a dictionary corresponding classes with index {"background":0 "crane":1}
 	print(self._class_to_ind)
         self._xml_path = os.path.join(self._data_path, "Annotations")
-        #self._image_ext = ['.JPEG', '.jpeg']
-        self._image_ext = '.JPEG'
+        self._image_ext = ['.JPEG', '.jpg']
+        #self._image_ext = '.JPEG'
 	# the xml file name and each one corresponding to image file name
         self._image_index = self._load_xml_filenames()
 	print(len(self._image_index))
@@ -68,19 +68,19 @@ class imagenet(imdb):
         """
         Construct an image path from the image's "index" identifier.
         """
-        image_path = os.path.join(self._data_path, 'Images',
-                                  image_filename + self._image_ext)
-        assert os.path.exists(image_path), \
-                'Path does not exist: {}'.format(image_path)
-        return image_path
-        #for i in self._image_ext:
-        #    image_path = os.path.join(self._data_path, 'Images',
-        #                          image_filename + i)#self._image_ext)
-        #    if(os.path.exists(image_path)):
-        #        return image_path
-        #assert False, \
+        #image_path = os.path.join(self._data_path, 'Images',
+                                  #image_filename + self._image_ext)
+        #assert os.path.exists(image_path), \
         #        'Path does not exist: {}'.format(image_path)
-        #return ""
+        #return image_path
+        for i in self._image_ext:
+            image_path = os.path.join(self._data_path, 'Images',
+                                  image_filename + i)#self._image_ext)
+            if(os.path.exists(image_path)):
+                return image_path
+        assert False, \
+                'Path does not exist: {}'.format(image_path)
+        return ""
 
     def _load_xml_filenames(self):
         """

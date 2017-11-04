@@ -29,7 +29,7 @@ import scipy.io as sio
 import caffe, os, sys, cv2
 import argparse
 
-CLASSES = ('__background__','crane')
+CLASSES = ('__background__','crane', 'excavator')
            #'aeroplane', 'bicycle', 'bird', 'boat',
            #'bottle', 'bus', 'car', 'cat', 'chair',
            #'cow', 'diningtable', 'dog', 'horse',
@@ -74,6 +74,7 @@ def vis_detections(im, class_name, dets, image_name, thresh=0.5):
     plt.tight_layout()
     plt.draw()
     plt.savefig('demo_results/'+image_name)
+    plt.close()
 
 def demo(net, image_name):
     """Detect object classes in an image using pre-computed object proposals."""
